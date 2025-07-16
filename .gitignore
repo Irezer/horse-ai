@@ -1,0 +1,30 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environment
+venv/
+.env
+
+# Logs and debug
+*.log
+
+# Data
+*.db
+*.sqlite3
+*.xlsx
+*.pdf
+
+# Model weights & outputs
+*.pt
+runs/
+*.jpg
+*.png
+
+# Uploads
+app/static/uploads/
+app/static/results/
+
+# System files
+.DS_Store
