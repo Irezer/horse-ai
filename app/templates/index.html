@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Horse AI - Обнаружение лошадей</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 30px;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    #resultImage {
+      max-width: 100%;
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    #stats {
+      margin-top: 10px;
+      font-weight: bold;
+      text-align: center;
+    }
+    input[type="file"] {
+      display: block;
+      margin: 20px auto;
+    }
+    button {
+      display: block;
+      margin: auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🐎 Обнаружение лошадей</h1>
+
+    <input type="file" id="imageInput" accept="image/*">
+    <button onclick="processImage()">Запустить обработку</button>
+
+    <div id="stats"></div>
+    <img id="resultImage" src="" alt="Результат">
+  </div>
+
+  <script>
+   async function processImage() {
+  const file = document.getElementById('imageInput').files[0];
+  if (!file) {
+    alert("Пожалуйста, выберите изображение.");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('image', file);
+
+  const response = await fetch('/process', {
+    method: 'POST',
+    body: formData
+  });
+
+  const data = await response.json();
+  document.getElementById('resultImage').src = data.image_url + '?' + Date.now(); // кэш-бастер
+  document.getElementById('stats').innerText = `Обнаружено объектов: ${data.detected_objects}`;
+}
+  </script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horse AI - Обработка изображений</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .input-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #imageInput {
+            margin: 10px 0;
+        }
+        #resultImage {
+            max-width: 100%;
+            display: block;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        #stats {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 18px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Horse AI - Обработка изображений</h1>
+    
+    <div class="input-container">
+        <input type="file" id="imageInput">
+        <button onclick="processImage()">Запустить обработку</button>
+    </div>
+    
+    <img id="resultImage" src="" alt="Результат">
+    
+    <div id="stats"></div>
+</div>
+
+<script>
+async function processImage() {
+    const file = document.getElementById('imageInput').files[0];
+    if (!file) {
+        alert('Пожалуйста, выберите изображение.');
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append('image', file);
+
+    const response = await fetch('/process', { 
+        method: 'POST', 
+        body: formData 
+    });
+
+    const data = await response.json();
+
+    // Показ результата
+    document.getElementById('resultImage').src = 'static/result.jpg?' + Date.now();
+    document.getElementById('stats').innerText = `Обнаружено объектов: ${data.count}`;
+}
+</script>
+
+</body>
+</html>

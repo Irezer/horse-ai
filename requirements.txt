@@ -1,4 +1,4 @@
-ultralytics==0.6.6
+ultralytics
 fastapi
 uvicorn[standard]
 python-multipart
